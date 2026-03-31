@@ -6,7 +6,7 @@ pipeline {
         timestamps()
     }
 
-    stages{
+    stages {
         stage('Checkout') {
             steps {
                 checkout scm
@@ -20,22 +20,21 @@ pipeline {
                     reuseNode true
                 }
             }
-        }
-
-        steps {
-            sh 'node -v && npm -v'
-            sh 'npm ci'
-            sh 'npm run lint'
-            sh 'npm run build' 
+            steps {
+                sh 'node -v && npm -v'
+                sh 'npm ci'
+                sh 'npm run lint'
+                sh 'npm run build'
+            }
         }
     }
 
     post {
         success {
-            archiveArtifacts artifacts: 'dist/**/*', fingerprint: true, allowEmptyArchive: false
-        } 
+            archiveArtifacts artifacts: 'dist/**/*', fingerprint: true
+        }
         failure {
-            echo "Pipeline thất bại - xem log từng stage "    
+            echo "Pipeline thất bại - xem log từng stage"
         }
     }
 }
